@@ -1,40 +1,40 @@
 --1 
 
-SELECT DISTINCT InvoiceId, CustomerId, total
-FROM invoices
-Order BY CustomerId ASC,
-total DESC;
+SELECT AlbumId, COUNT (TrackId) AS Tracks
+FROM tracks
+GROUP BY AlbumId
+ORDER BY Tracks DESC;
 
 --2
 
-SELECT DISTINCT InvoiceId, CustomerId, total
-FROM invoices
-Order BY total DESC,
-CustomerId ASC;
+SELECT title, name
+FROM albums
+JOIN tracks
+ON albums.AlbumId = tracks.AlbumId;
 
 --3
 
-SELECT *
-FROM invoices
-WHERE total >= 10
-LIMIT 10;
+SELECT t.name, t.AlbumId, a.title, MIN(t.Milliseconds) AS Duration
+FROM albums AS a
+JOIN tracks AS t
+ON a.AlbumId = t.AlbumId
+GROUP BY a.Title
+ORDER BY Duration DESC;
 
 --4
 
-SELECT * 
-FROM invoices
-WHERE total < 10
-LIMIT 5;
+SELECT t.name, a.AlbumId, a.title, SUM(t.Milliseconds) AS Duration
+FROM tracks AS t
+JOIN albums AS a
+ON t.AlbumId = a.AlbumId
+GROUP BY a.Title
+ORDER BY Duration ASC;
 
 --5
 
-SELECT name
-FROM tracks
-WHERE name LIKE "B%s"
-
---6
-
-SELECT *
-FROM invoices
-WHERE total BETWEEN 10.1 AND 20.9
-ORDER BY total DESC;
+SELECT a.title, SUM(t.Milliseconds) AS Duration
+FROM tracks AS t
+JOIN albums a
+ON t.AlbumId = a.AlbumId
+GROUP BY a.title
+HAVING Duration > 4200000;
