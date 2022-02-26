@@ -1,0 +1,70 @@
+1. Write a query to display the employee name and hiredate for all
+employees in the same department as Blake. Exclude Blake.
+
+SELECT ENAME, HIREDATE
+FROM EMPLOYEE
+WHERE DEPTNO =( 
+	SELECT DEPTNO
+	FROM EMPLOYEE
+	WHERE ENAME = "BLAKE"
+) AND ENAME != "BLAKE"
+
+2. Create a query to display the employee number and name for all employees who earn
+more than the average salary. Sort the results in descending order of salary.
+
+SELECT ENUMBER, ENAME
+FROM EMPLOYEE
+WHERE SALARY > (
+	SELECT AVG(SALARY)
+	FROM EMPLOYEE
+)
+ORDER BY SALARY DESC
+
+3. Write a query to display the employee number and name for all
+employees who work in a department with any employee whose name
+contains a T. 
+
+SELECT ENUMBER, ENAME
+FROM EMPLOYEE
+WHERE DEPT IN (
+	SELECT DEPTNO
+	FROM EMPLOYEE
+	WHERE NAME LIKE "%T%"	
+)
+
+4. Display the employee name, department number, and job title for all
+employees whose department location is Dallas.
+Solution with subquery:
+
+SELECT ENAME, ENUMBER, JOBTITLE
+FROM EMPLOYEE
+WHERE DEPTNO = (
+	SELECT DEPTNO
+	FROM DEPT
+	WHERE DEPTLOC = "DALLAS"
+)
+
+
+SELECT ENAME, ENUMBER, JOBTITLE
+FROM EMPLOYEE E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO
+AND DEPTLOC = "DALLAS"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
